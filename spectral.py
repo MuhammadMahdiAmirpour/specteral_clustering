@@ -57,5 +57,6 @@ if __name__ == "__main__":
     # data = make_blobs(n_samples=100, n_features=2)
     # random_points = data[0]
     pairwise_distances = np.linalg.norm(random_points[:, None] - random_points, axis=2)
+    print(laplacian(pairwise_distances))
     print(spectral_clustering(pairwise_distances, k=3))
 
