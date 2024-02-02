@@ -23,7 +23,7 @@ def construct_affinity_matrix(data, affinity_type, *, k=3, sigma=1.0):
     pairwise_distances = np.linalg.norm(np.tile(data.reshape((m,1,n)),(1,m,1)) - data,axis=2)
     if affinity_type == 'knn':
         affinity_matrix = np.zeros((m,m))
-        affinity_matrix[np.arange(m).reshape(m,1), np.argsort(pairwise_distances)[:,:k]] = 1
+        affinity_matrix[np.arange(m).reshape(m,1), np.argsort(pairwise_distances)[:,k:]] = 1
         return (((affinity_matrix + affinity_matrix.T)/2) >= 0.5).astype(int)
 
     elif affinity_type == 'rbf':
@@ -65,10 +65,11 @@ if __name__ == "__main__":
         plots[i][2].scatter(X[:,0],X[:,1],c= y_rbf,cmap= 'Accent',marker= 'o')
         plots[i][2].set_title("rbf clusteration for %s" %ds_name)
 
-        plots[i][3].scatter(X[:,0],X[:,1],c= y,cmap= 'Accent',marker= 'o',)
+        plots[i][3].scatter(X[:,0],X[:,1],c= y_knn,cmap= 'Accent',marker= 'o',)
         plots[i][3].set_title("knn clusteration for %s" %ds_name)   
 
         i += 1
     # TODO: Show subplots
     plt.tight_layout()
     plt.show()
+
